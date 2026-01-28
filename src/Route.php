@@ -187,10 +187,15 @@ trait Route {
             $data = new Data(Core::object($read));
             $list = $data->get('Route');
         }
-        foreach($list as $nr => $item){
-            $list[$nr] = $this->route_item_path($item);
-            $list[$nr] = $this->route_item_deep($list[$nr]);
+        if(is_array($list)){
+            foreach($list as $nr => $item){
+                $list[$nr] = $this->route_item_path($item);
+                $list[$nr] = $this->route_item_deep($list[$nr]);
+            }
+        } elseif(is_object($list)){
+            ddd($list);
         }
+
         //add filter (no cli)
         $data = Sort::list($list)->with([
             'priority' => 'asc',
