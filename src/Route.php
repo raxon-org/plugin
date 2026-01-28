@@ -186,6 +186,8 @@ trait Route {
             $read = File::read($url_route_temp);
             $data = new Data(Core::object($read));
             $list = $data->get('Route');
+        } else {
+            return $config;
         }
         if(is_array($list)){
             foreach($list as $nr => $item){
@@ -193,8 +195,7 @@ trait Route {
                 $list[$nr] = $this->route_item_deep($list[$nr]);
             }
         } elseif(is_object($list)){
-            //already done
-            return $config;
+            ddd($list);
         }
 
         //add filter (no cli)
