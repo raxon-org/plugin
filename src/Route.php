@@ -193,7 +193,8 @@ trait Route {
                 $list[$nr] = $this->route_item_deep($list[$nr]);
             }
         } elseif(is_object($list)){
-            ddd($list);
+            //already done
+            return $config;
         }
 
         //add filter (no cli)
