@@ -749,7 +749,30 @@ trait Route {
 
     private function route_prepare_cli(Data $config, object $route): object
     {
-        ddd($route);
+        $module = $route->request->get('1');
+        if($module){
+            $route->request->set('module', $module);
+        }
+        $submodule = $route->request->get('2');
+        if($submodule){
+            $route->request->set('submodule', $submodule);
+        }
+        $command = $route->request->get('3');
+        if($command){
+            $route->request->set('command', $command);
+        }
+        $subcommand = $route->request->get('4');
+        if($subcommand){
+            $route->request->set('subcommand', $subcommand);
+        }
+        $action = $route->request->get('5');
+        if($action){
+            $route->request->set('action', $action);
+        }
+        $subaction = $route->request->get('6');
+        if($subaction){
+            $route->request->set('subaction', $subaction);
+        }
         return $route;
     }
 
