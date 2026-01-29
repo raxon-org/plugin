@@ -82,7 +82,7 @@ trait Route {
             array_pop($select->attribute);
         }
         $select->method = $this->route_method();
-        if($select->method === 'CLI'){
+        if($select->method === self::METHOD_CLI){
             $this->config($this->route_select_cli($config, $select));
         } else {
             $this->config($this->route_select($config, $select));
@@ -773,20 +773,7 @@ trait Route {
         if($subaction){
             $route->request->set('subaction', $subaction);
         }
-        $route->flags = New Data();
-        $route->options = New Data();
-        foreach($route->request->data() as $key => $value){
-            if(substr($key, 0, 1) === '-' && substr($key, 1, 1) !== '-'){
-                //options
-                $name = substr($key, 1);
-                $route->options->set($name, $value);
-            }
-            elseif(substr($key, 0, 1) === '-' && substr($key, 1, 1) === '-'){
-                //flags
-                $name = substr($key, 2);
-                $route->flags->set($name, $value);
-            }
-        }
+        $route = $this->flags_options($route);
         return $route;
     }
 
@@ -813,5 +800,247 @@ trait Route {
         }
         return $route;
     }
+    private function flags_options(object $route): object
+    {
+        $data = $route->request->data();
+        $options = (object) [];
+        $flags = (object) [];
+        foreach($data as $nr => $parameter){
+            $is_flag = false;
+            $is_option = false;
+            $is_array = false;
+            if(
+                is_string($parameter)
+            ){
+                if(substr($parameter, 0, 2) === '--'){
+                    $parameter = substr($parameter, 2);
+                    $is_flag = true;
+                }
+                elseif(substr($parameter, 0, 1) === '-'){
+                    $parameter = substr($parameter, 1);
+                    $is_option = true;
+                }
+                $value = true;
+                $tmp = explode('=', $parameter, 2);
+                if(array_key_exists(1, $tmp)){
+                    $parameter = $tmp[0];
+                    if(substr($parameter, -2, 2) === '[]'){
+                        $parameter = substr($parameter, 0, -2);
+                        $is_array = true;
+                    }
+                    elseif(str_contains($parameter, '[') && str_contains($parameter, ']')){
+                        $explode = explode('[', $parameter);
+                        $count = count($explode);
+                        for($i = 0; $i <$count; $i++){
+                            $explode[$i] = str_replace(']', '', $explode[$i]);
+                        }
+                        $parameter = array_shift($explode);
+                        $count--;
+                        $is_continue = false;
+                        $value = $tmp[1];
+                        if(is_numeric($value)){
+                            $value = $value + 0;
+                        } else {
+                            switch($value){
+                                case 'true':
+                                    $value = true;
+                                    break;
+                                case 'false':
+                                    $value = false;
+                                    break;
+                                case 'null':
+                                    $value = null;
+                                    break;
+                                case '[]':
+                                    $value = [];
+                                    break;
+                                case '{}':
+                                    $value = (object) [];
+                                    break;
+                                case '\true':
+                                    $value = 'true';
+                                    break;
+                                case '\false':
+                                    $value = 'false';
+                                    break;
+                                case '\null':
+                                    $value = 'null';
+                                    break;
+                                case '\[]':
+                                    $value = '[]';
+                                    break;
+                                case '\{}':
+                                    $value = '{}';
+                                    break;
+                            }
+                        }
+                        switch($count){
+                            case 10:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]][$explode[3]][$explode[4]][$explode[5]][$explode[6]][$explode[7]][$explode[8]][$explode[9]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 9:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]][$explode[3]][$explode[4]][$explode[5]][$explode[6]][$explode[7]][$explode[8]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 8:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]][$explode[3]][$explode[4]][$explode[5]][$explode[6]][$explode[7]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 7:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]][$explode[3]][$explode[4]][$explode[5]][$explode[6]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 6:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]][$explode[3]][$explode[4]][$explode[5]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 5:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]][$explode[3]][$explode[4]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 4:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]][$explode[3]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 3:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]][$explode[2]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 2:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]][$explode[1]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                            case 1:
+                                $get = Core::object_get($parameter, $options);
+                                if(!is_array($get)){
+                                    $get = [];
+                                }
+                                $get[$explode[0]] = $value;
+                                Core::object_set($parameter, $get, $options, 'child');
+                                $is_continue = true;
+                                break;
+                        }
+                        if($is_continue){
+                            continue;
+                        }
+                    }
+                    $value = $tmp[1];
+                    if(is_numeric($value)){
+                        $value = $value + 0;
+                    } else {
+                        switch($value){
+                            case 'true':
+                                $value = true;
+                                break;
+                            case 'false':
+                                $value = false;
+                                break;
+                            case 'null':
+                                $value = null;
+                                break;
+                            case '[]':
+                                $value = [];
+                                break;
+                            case '{}':
+                                $value = (object) [];
+                                break;
+                            case '\true':
+                                $value = 'true';
+                                break;
+                            case '\false':
+                                $value = 'false';
+                                break;
+                            case '\null':
+                                $value = 'null';
+                                break;
+                            case '\[]':
+                                $value = '[]';
+                                break;
+                            case '\{}':
+                                $value = '{}';
+                                break;
+                        }
+                    }
+                } elseif(substr($parameter, -2, 2) === '[]'){
+                    $parameter = substr($parameter, 0, -2);
+                    $is_array = true;
+                }
+                if($is_option){
+                    if($is_array){
+                        $get = Core::object_get($parameter, $options);
+                        if(!is_array($get)){
+                            $get = [];
+                        }
+                        $get[] = $value;
+                        Core::object_set($parameter, $get, $options, 'child');
+                    } else {
+                        Core::object_set($parameter, $value, $options, 'child');
+                    }
+                }
+                elseif($is_flag){
+                    if($is_array){
+                        $get = Core::object_get($parameter, $options);
+                        if(!is_array($get)){
+                            $get = [];
+                        }
+                        $get[] = $value;
+                        Core::object_set($parameter, $get, $flags, 'child');
+                    } else {
+                        Core::object_set($parameter, $value, $flags, 'child');
+                    }
+                }
+            }
+        }
+        $route->flags = new Data($flags);
+        $route->options = new Data($options);
+        return $route;
+    }
+
 
 }
