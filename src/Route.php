@@ -376,10 +376,10 @@ trait Route {
     {
         $data =  $config->get('route.list');
         if(Core::object_is_empty($data)){
-            return false;
+            return $config;
         }
         if(!is_object($data)){
-            return false;
+            return $config;
         }
         $current = false;
         foreach($data as $name => $record){
@@ -397,9 +397,9 @@ trait Route {
         if($current !== false){
             $current = $this->route_prepare($config, $current, $select);
             $current->parameter = $select->parameter;
-            return $current;
+            ddd($current);
         }
-        return false;
+        return $config;
     }
 
     /**
