@@ -394,10 +394,15 @@ trait Route {
                 break;
             }
         }
-        if($current !== false){
+        if($current === false){
+            $config->set('route.current', false);
+        } else {
             $current = $this->route_prepare($config, $current, $select);
+            $config->set('route.current', new Destination($current));
+            foreach($config->get('route.current')->get('request')->data() as $key => $value){
+                $config->set('request.' . $key, $value);
+            }
         }
-        $config->set('route.current', $current);
         return $config;
     }
 
