@@ -12,12 +12,12 @@ use Module\Destination as Destiny;
 
 trait Destination {
 
-    public function destination(): null|Destiny
+    public function destination(): false|Destiny
     {
         $config = $this->config();
         if($config){
             return $this->config()->get('route.current');
         }
-        return null;
+        return false;
     }
 }
