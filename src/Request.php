@@ -104,6 +104,7 @@ trait Request {
             array_shift($temp);
             $request = $temp;
             $request = Core::array_object($request);
+            $data->set('request', '/');
             foreach($request as $key => $value){
                 $key = str_replace(['-', '_'], ['.', '.'], $key);
                 $data->set($key, trim($value));
