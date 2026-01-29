@@ -398,6 +398,7 @@ trait Route {
             $config->set('route.current', false);
         } else {
             $current = $this->route_prepare($config, $current, $select);
+            $current = $this->route_prepare_cli($config, $current);
             $config->set('route.current', new Destination($current));
             foreach($config->get('route.current')->get('request')->data() as $key => $value){
                 $config->set('request.' . $key, $value);
@@ -746,7 +747,13 @@ trait Route {
         return $route;
     }
 
-    public static function route_controller(object $route): object
+    private function route_prepare_cli(Data $config, object $route): object
+    {
+        ddd($route);
+        return $route;
+    }
+
+    public function route_controller(object $route): object
     {
         if(property_exists($route, 'controller')){
             $is_double_colon = str_contains($route->controller, ':');
