@@ -67,9 +67,12 @@ trait Cron {
             '.' .
             $environment
         ;
+
         if(File::exists($source)){
             File::write($url, File::read($source));
             $this->cron_init();
+        } else {
+            echo 'Please create a cron file for your environment: ' . $source . PHP_EOL;
         }
     }
 
