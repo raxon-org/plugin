@@ -403,6 +403,12 @@ trait Route {
             foreach($config->get('route.current')->get('request')->data() as $key => $value){
                 $config->set('request.' . $key, $value);
             }
+            foreach($config->get('route.current')->get('options')->data() as $key => $value){
+                $config->set('options.' . $key, $value);
+            }
+            foreach($config->get('route.current')->get('flags')->data() as $key => $value){
+                $config->set('flags.' . $key, $value);
+            }
         }
         return $config;
     }
