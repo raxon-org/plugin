@@ -800,6 +800,10 @@ trait Route {
         }
         return $route;
     }
+
+    /**
+     * @throws Exception
+     */
     private function flags_options(object $route): object
     {
         $data = $route->request->data();
