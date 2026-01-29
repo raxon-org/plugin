@@ -773,6 +773,20 @@ trait Route {
         if($subaction){
             $route->request->set('subaction', $subaction);
         }
+        $route->flags = New Data();
+        $route->options = New Data();
+        foreach($route->request->data() as $key => $value){
+            if(substr($key, 0, 1) === '-' && substr($key, 1, 1) !== '-'){
+                //options
+                $name = substr($key, 1);
+                $route->options->set($name, $value);
+            }
+            elseif(substr($key, 0, 1) === '-' && substr($key, 1, 1) === '-'){
+                //flags
+                $name = substr($key, 2);
+                $route->flags->set($name, $value);
+            }
+        }
         return $route;
     }
 
