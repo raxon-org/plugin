@@ -82,6 +82,7 @@ trait Route {
             array_pop($select->attribute);
         }
         $select->method = $this->route_method();
+        ddd($select);
         $this->config($this->route_select($config, $select));
     }
 
