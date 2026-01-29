@@ -108,6 +108,9 @@ trait Request {
             foreach($request as $key => $value){
                 $key = str_replace(['-', '_'], ['.', '.'], $key);
                 $data->set($key, trim($value));
+                if($key === 0){
+                    $data->set('path', trim($value));
+                }
             }
         } else {
             $request = $this->request_key_group($_REQUEST);
