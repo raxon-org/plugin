@@ -565,7 +565,7 @@ trait Route {
         return $is_match;
     }
 
-    private function is_match_cli(Data $config, object $route, object $select): bool
+    private function route_is_match_cli(Data $config, object $route, object $select): bool
     {
         $is_match = $this->route_is_match_by_attribute($config, $route, $select);
         if($is_match === false){
