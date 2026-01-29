@@ -1025,6 +1025,7 @@ trait Route {
                     } else {
                         Core::object_set($parameter, $value, $options, 'child');
                     }
+                    d($options);
                 }
                 elseif($is_flag){
                     if($is_array){
@@ -1037,6 +1038,7 @@ trait Route {
                     } else {
                         Core::object_set($parameter, $value, $flags, 'child');
                     }
+                    d($flags);
                 }
             }
         }
