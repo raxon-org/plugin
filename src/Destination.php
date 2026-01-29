@@ -16,7 +16,7 @@ trait Destination {
     {
         $config = $this->config();
         if($config){
-            if(!$config->has('route.current')){
+            if(empty($config->get('route.current'))){
                 return false;
             }
             return $this->config()->get('route.current');
