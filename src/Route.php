@@ -56,6 +56,7 @@ trait Route {
         }
         $select = (object)[
             'input' => $config->get('request.request'),
+            'parameter' => $config->get('request')
         ];
         $test = $this->route_request_explode(urldecode($select->input));
         $test_count = count($test);
