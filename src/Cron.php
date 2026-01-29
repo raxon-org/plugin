@@ -85,7 +85,7 @@ trait Cron {
         $command = 'service cron restart';
         exec($command, $output, $code);
         if($output){
-            echo implode(PHP_EOL, $output);
+            echo implode(PHP_EOL, $output) . PHP_EOL;
         }
     }
 
@@ -98,7 +98,7 @@ trait Cron {
         $command = 'service cron start';
         exec($command, $output, $code);
         if($output){
-            echo implode(PHP_EOL, $output);
+            echo implode(PHP_EOL, $output) . PHP_EOL;
         }
     }
 
@@ -111,7 +111,7 @@ trait Cron {
         $command = 'service cron stop';
         exec($command, $output, $code);
         if($output){
-            echo implode(PHP_EOL, $output);
+            echo implode(PHP_EOL, $output) . PHP_EOL;
         }
     }
 
@@ -149,7 +149,7 @@ trait Cron {
                 $command = 'service cron restart';
                 exec($command, $output, $code);
                 if($output){
-                    echo implode(PHP_EOL, $output);
+                    echo implode(PHP_EOL, $output) . PHP_EOL;
                 }
             }
         }
