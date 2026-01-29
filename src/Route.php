@@ -397,7 +397,6 @@ trait Route {
         if($current !== false){
             $current = $this->route_prepare($config, $current, $select);
             $current->parameter = $select->parameter;
-            ddd($current);
         }
         return $config;
     }
