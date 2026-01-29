@@ -181,7 +181,7 @@ trait Route {
             $dir_route_temp = $config->get('directory.temp') . 'Data' . DIRECTORY_SEPARATOR;
             Dir::create($dir_route_temp, Dir::CHMOD);
             $url_route_temp =  $dir_route_temp . 'Route.json';
-            if(!File::exist($url_route_temp)){
+            if(!File::exists($url_route_temp)){
                 $url_route = $config->get('directory.data') . 'Route.json';
                 if($url_route === $url_route_temp){
                     throw new Exception('Route.json not found');
