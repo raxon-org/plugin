@@ -82,8 +82,12 @@ trait Route {
             array_pop($select->attribute);
         }
         $select->method = $this->route_method();
-        ddd($select);
-        $this->config($this->route_select($config, $select));
+        if($select->method === 'CLI'){
+            $this->config($this->route_select_cli($config, $select));
+        } else {
+            $this->config($this->route_select($config, $select));
+        }
+
     }
 
     /**
@@ -366,6 +370,39 @@ trait Route {
     }
 
     /**
+     * @throws Exception
+     */
+    private function route_select_cli(Data $config, object $select): bool | object
+    {
+        $data =  $config->get('route.list');
+        if(Core::object_is_empty($data)){
+            return false;
+        }
+        if(!is_object($data)){
+            return false;
+        }
+        $current = false;
+        foreach($data as $name => $record){
+            if(property_exists($record, 'resource')){
+                continue;
+            }
+            $match = $this->route_is_match_cli($config, $record, $select);
+//            $match = Route::is_match_cli($object, $record, $select);
+            if($match === true){
+                $current = $record;
+                $current->name = $name;
+                break;
+            }
+        }
+        if($current !== false){
+            $current = $this->route_prepare($config, $current, $select);
+            $current->parameter = $select->parameter;
+            return $current;
+        }
+        return false;
+    }
+
+    /**
      * @throws ObjectException
      * @throws Exception
      */
@@ -523,6 +560,19 @@ trait Route {
         }
         $is_match = $this->route_is_match_by_condition($config, $route, $select);
         if ($is_match === false) {
+            return $is_match;
+        }
+        return $is_match;
+    }
+
+    private function is_match_cli(Data $config, object $route, object $select): bool
+    {
+        $is_match = $this->route_is_match_by_attribute($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        $is_match = $this->route_is_match_by_method($config, $route, $select);
+        if($is_match === false){
             return $is_match;
         }
         return $is_match;
