@@ -462,6 +462,7 @@ trait Route {
         $explode = explode('/', $route->path);
         array_pop($explode);
         $attribute = $select->attribute;
+        ddd($attribute);
         if(empty($attribute) && $route->path === '/'){
             return true;
         }
