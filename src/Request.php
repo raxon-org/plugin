@@ -108,7 +108,7 @@ trait Request {
             foreach($request as $key => $value){
                 $key = str_replace(['-', '_'], ['.', '.'], $key);
                 $data->set($key, trim($value));
-                if($key === 0){
+                if($key === "0"){
                     $data->set('path', trim($value));
                 }
             }
