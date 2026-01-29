@@ -816,7 +816,6 @@ trait Route {
         $options = (object) [];
         $flags = (object) [];
         foreach($data as $nr => $parameter){
-            d($parameter);
             $is_flag = false;
             $is_option = false;
             $is_array = false;
