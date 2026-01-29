@@ -821,6 +821,8 @@ trait Route {
                     $parameter = substr($parameter, 1);
                     $is_option = true;
                 }
+                d($parameter);
+                d($is_option);
                 $value = true;
                 $tmp = explode('=', $parameter, 2);
                 if(array_key_exists(1, $tmp)){
