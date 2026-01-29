@@ -27,7 +27,7 @@ trait Request {
         }
         elseif($attribute !== null){
             return $config->get($prefix . '.' . $attribute);
-        } else {
+        } elseif($config !== null) {
             return $config->get($prefix);
         }
         return null;
