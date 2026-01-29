@@ -109,7 +109,7 @@ trait Request {
                 $key = str_replace(['-', '_'], ['.', '.'], $key);
                 $data->set($key, trim($value));
                 if($key === "0"){
-                    $data->set('request', $data->get('request') . trim($value));
+                    $data->set('request', trim($value));
                     $data->set('path', trim($value));
                 }
             }
