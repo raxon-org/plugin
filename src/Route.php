@@ -398,8 +398,8 @@ trait Route {
             $config->set('route.current', false);
         } else {
             $current = $this->route_prepare($config, $current, $select);
-            ddd($current);
             $current = $this->route_prepare_cli($config, $current);
+            ddd($current);
             $config->set('route.current', new Destination($current));
             foreach($config->get('route.current')->get('request')->data() as $key => $value){
                 $config->set('request.' . $key, $value);
