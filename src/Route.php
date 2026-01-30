@@ -1024,13 +1024,11 @@ trait Route {
                 }
                 if($is_option){
                     if($is_array){
-                        d($parameter);
-                        d($options);
                         $get = Core::object_get($parameter, $options);
                         if(!is_array($get)){
                             $get = [];
                         }
-                        $get[] = $value;
+//                        $get[] = $value;
                         Core::object_set($parameter, $get, $options, 'child');
                     } else {
                         Core::object_set($parameter, $value, $options, 'child');
