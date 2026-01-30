@@ -756,7 +756,7 @@ trait Route {
 
     private function route_prepare_cli(Data $config, object $route): object
     {
-        foreach($route->request->data('request') as $key => $value){
+        foreach($route->request->data() as $key => $value){
             if(is_numeric($key)){
                 switch((int) $key){
                     case 1: $route->request->set('module', $value);
