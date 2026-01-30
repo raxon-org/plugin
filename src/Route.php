@@ -1025,6 +1025,8 @@ trait Route {
                 if($is_option){
                     if($is_array){
                         $get = Core::object_get($parameter, $options);
+                        d($get);
+
                         if(!is_array($get)){
                             $get = [];
                         }
