@@ -756,29 +756,23 @@ trait Route {
 
     private function route_prepare_cli(Data $config, object $route): object
     {
-        $module = $route->request->get('1');
-        if($module){
-            $route->request->set('module', $module);
-        }
-        $submodule = $route->request->get('2');
-        if($submodule){
-            $route->request->set('submodule', $submodule);
-        }
-        $command = $route->request->get('3');
-        if($command){
-            $route->request->set('command', $command);
-        }
-        $subcommand = $route->request->get('4');
-        if($subcommand){
-            $route->request->set('subcommand', $subcommand);
-        }
-        $action = $route->request->get('5');
-        if($action){
-            $route->request->set('action', $action);
-        }
-        $subaction = $route->request->get('6');
-        if($subaction){
-            $route->request->set('subaction', $subaction);
+        foreach($route->request->data('request') as $key => $value){
+            if(is_numeric($key)){
+                switch((int) $key){
+                    case 1: $route->request->set('module', $value);
+                    break;
+                    case 2: $route->request->set('submodule', $value);
+                    break;
+                    case 3: $route->request->set('command', $value);
+                    break;
+                    case 4: $route->request->set('subcommand', $value);
+                    break;
+                    case 5: $route->request->set('action', $value);
+                    break;
+                    case 6: $route->request->set('subaction', $value);
+                    break;
+                }
+            }
         }
         $route = $this->flags_options($route);
         return $route;
