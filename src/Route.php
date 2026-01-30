@@ -759,17 +759,41 @@ trait Route {
         foreach($route->request->data() as $key => $value){
             if(is_numeric($key)){
                 switch((int) $key){
-                    case 1: $route->request->set('module', $value);
+                    case 1: {
+                        if(!str_starts_with($value, '-')){
+                            $route->request->set('module', $value);
+                        }
+                    }
                     break;
-                    case 2: $route->request->set('submodule', $value);
+                    case 2: {
+                        if(!str_starts_with($value, '-')){
+                            $route->request->set('submodule', $value);
+                        }
+                    }
                     break;
-                    case 3: $route->request->set('command', $value);
+                    case 3: {
+                        if(!str_starts_with($value, '-')){
+                            $route->request->set('command', $value);
+                        }
+                    }
                     break;
-                    case 4: $route->request->set('subcommand', $value);
+                    case 4: {
+                        if(!str_starts_with($value, '-')){
+                            $route->request->set('subcommand', $value);
+                        }
+                    }
                     break;
-                    case 5: $route->request->set('action', $value);
+                    case 5: {
+                        if(!str_starts_with($value, '-')){
+                            $route->request->set('action', $value);
+                        }
+                    }
                     break;
-                    case 6: $route->request->set('subaction', $value);
+                    case 6: {
+                        if(!str_starts_with($value, '-')){
+                            $route->request->set('subaction', $value);
+                        }
+                    }
                     break;
                 }
             }
