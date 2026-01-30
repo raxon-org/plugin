@@ -1028,10 +1028,6 @@ trait Route {
                         if(!is_array($get)){
                             $get = [];
                         }
-                        if(!in_array($value, $get)){
-                            $get[] = $value;
-                        }
-                        Core::object_set($parameter, $get, $options, 'child');
                         $get[] = $value;
                         Core::object_set($parameter, $get, $options, 'child');
                     } else {
@@ -1044,9 +1040,7 @@ trait Route {
                         if(!is_array($get)){
                             $get = [];
                         }
-                        if(!in_array($value, $get)){
-                            $get[] = $value;
-                        }
+                        $get[] = $value;
                         Core::object_set($parameter, $get, $flags, 'child');
                     } else {
                         Core::object_set($parameter, $value, $flags, 'child');
