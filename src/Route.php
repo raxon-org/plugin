@@ -1032,7 +1032,7 @@ trait Route {
                         if(!is_array($get)){
                             $get = [];
                         }
-//                        $get[] = $value;
+                        $get[] = $value;
                         Core::object_set($parameter, $get, $options, 'child');
                     } else {
                         Core::object_set($parameter, $value, $options, 'child');
