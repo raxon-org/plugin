@@ -25,12 +25,13 @@ trait Config {
 
     /**
      * @throws ObjectException
+     * @throws Exception
      */
     public function config_extension(Data $config): Data {
         $url = $config->get('directory.data') . 'Extension.json';
         $data = new Data(Core::object(File::read($url)));
         if(!$data->has('Extension')){
-            return $config;
+            throw new Exception($url . ' doesn\'t have Extension.');
         }
         $extension_list = [];
         $content_type_list = [];
