@@ -38,7 +38,10 @@ trait Destination {
                     ],
                     'function' => 'get'
                 ];
-                return new Destiny($current);
+                if($config){
+                    $config->set('route.current' , new Destiny($current));
+                    return $config->get('route.current');
+                }
             }
             break;
             default: {
@@ -46,7 +49,7 @@ trait Destination {
                     if(empty($config->get('route.current'))){
                         return false;
                     }
-                    return $this->config()->get('route.current');
+                    return $config->get('route.current');
                 }
             }
         }
