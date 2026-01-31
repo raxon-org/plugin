@@ -51,6 +51,9 @@ trait Route {
         $config = $this->config();
         //route_find $config->get('request.request')
         $config = $this->route_load($config);
+        $request = $config->get('request.request');
+        $extension = File::extension($request);
+        d($extension);
         if (substr($config->get('request.request'), -1) != '/') {
             $config->set('request.request', $config->get('request.request') . '/');
         }
