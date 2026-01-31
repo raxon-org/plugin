@@ -423,6 +423,7 @@ trait Route {
 
         } else {
             $route = $config->get('route.list');
+            ddd($route);
             $request = $route->get('*');
             if($request !== null){
                 if(property_exists($request, 'controller')){
