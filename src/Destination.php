@@ -24,8 +24,11 @@ trait Destination {
             case 'file-request':
             case 'file_request': {
                 $request = $this->request('request');
-                d($request);
-                d($request);
+                $extension = File::extension($request);
+                if($extension === ''){
+                    return false;
+                }
+                ddd($config->get('route'));
             }
             break;
             default: {
