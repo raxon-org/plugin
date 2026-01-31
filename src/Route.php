@@ -359,6 +359,7 @@ trait Route {
             $current = $this->route_wildcard($config);
             if($current){
                 $config->set('route.current', new Destination($current));
+                ddd($current);
                 foreach($config->get('route.current')->get('request')->data() as $key => $value){
                     $config->set('request.' . $key, $value);
                 }
