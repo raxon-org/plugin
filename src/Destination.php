@@ -35,7 +35,8 @@ trait Destination {
                     'controller' => 'Microstorm\\Controller\\FileRequest',
                     'method' => [
                         'GET'
-                    ]
+                    ],
+                    'function' => 'get'
                 ];
                 return new Destiny($current);
             }
