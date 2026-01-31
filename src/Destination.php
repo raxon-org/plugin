@@ -42,8 +42,8 @@ trait Destination {
                     $config->set('route.current' , new Destiny($current));
                     return $config->get('route.current');
                 }
+                return false;
             }
-            break;
             default: {
                 if($config){
                     if(empty($config->get('route.current'))){
