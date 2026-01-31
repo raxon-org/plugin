@@ -9,7 +9,10 @@
 namespace Plugin;
 
 use Exception;
+use Exception\ObjectException;
+use Module\Core;
 use Module\Data;
+use Module\File;
 
 trait Config {
 
@@ -18,6 +21,16 @@ trait Config {
             $this->config = $config;
         }
         return $this->config;
+    }
+
+    /**
+     * @throws ObjectException
+     */
+    public function config_extension(Data $config): Data {
+        $url = $config->get('directory.data') . 'Extension.json';
+        $data = new Data(Core::object(File::read($url)));
+        ddd($data);
+        return $config;
     }
 
     /**
