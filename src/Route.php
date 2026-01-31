@@ -53,9 +53,8 @@ trait Route {
         $config = $this->route_load($config);
         $request = $config->get('request.request');
         $extension = File::extension($request);
-        d($extension);
-        if (substr($config->get('request.request'), -1) != '/') {
-            $config->set('request.request', $config->get('request.request') . '/');
+        if ($extension === '' && !str_ends_with($request, '/')) {
+            $config->set('request.request', $request . '/');
         }
         $select = (object)[
             'input' => $config->get('request.request')
