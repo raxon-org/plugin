@@ -24,8 +24,7 @@ trait Destination {
             case 'file-request':
             case 'file_request': {
                 $request = $this->request('request');
-                $extension = File::extension($request);
-                d($extension);
+                d($request);
             }
             break;
             default: {
