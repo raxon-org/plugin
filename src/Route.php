@@ -363,8 +363,12 @@ trait Route {
             }
         } else {
             //wildcard does not work on file extensions...
-            d($select);
-            d($select);
+            if(property_exists($select, 'input')){
+                $extension = File::extension($select->input);
+                if($extension !== ''){
+                    return $config;
+                }
+            }
             $current = $this->route_wildcard($config);
             if($current){
                 $config->set('route.current', new Destination($current));
