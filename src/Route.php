@@ -350,18 +350,24 @@ trait Route {
             $current = $this->route_prepare($config, $current, $select);
             if($current){
                 $config->set('route.current', new Destination($current));
-                foreach($config->get('route.current')->get('request')->data() as $key => $value){
-                    $config->set('request.' . $key, $value);
+                $request = $config->get('route.current')->get('request');
+                if($request){
+                    foreach($request->data() as $key => $value){
+                        $config->set('request.' . $key, $value);
+                    }
                 }
+
                 return $config;
             }
         } else {
             $current = $this->route_wildcard($config);
             if($current){
                 $config->set('route.current', new Destination($current));
-                ddd($current);
-                foreach($config->get('route.current')->get('request')->data() as $key => $value){
-                    $config->set('request.' . $key, $value);
+                $request = $config->get('route.current')->get('request');
+                if($request){
+                    foreach($request->data() as $key => $value){
+                        $config->set('request.' . $key, $value);
+                    }
                 }
                 return $config;
             }
