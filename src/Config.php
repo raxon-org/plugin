@@ -29,7 +29,17 @@ trait Config {
     public function config_extension(Data $config): Data {
         $url = $config->get('directory.data') . 'Extension.json';
         $data = new Data(Core::object(File::read($url)));
-        ddd($data);
+        if(!$data->has('Extension')){
+            return $config;
+        }
+        $extension_list = [];
+        $content_type_list = [];
+        foreach($data->get('Extension') as $extension => $content_type){
+            $extension_list[$extension] = $content_type;
+            $content_type_list[$content_type] = $extension;
+        }
+        $config->set('extensions', $extension_list);
+        $config->set('content.types', $content_type_list);
         return $config;
     }
 
