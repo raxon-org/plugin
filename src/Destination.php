@@ -10,6 +10,7 @@ namespace Plugin;
 
 use Exception;
 use Module\Destination as Destiny;
+use Module\File;
 
 trait Destination {
 
@@ -22,8 +23,9 @@ trait Destination {
         switch($type){
             case 'file-request':
             case 'file_request': {
-                d($this->request());
-                ddd($config);
+                $request = $this->request('request');
+                $extension = File::extension($request);
+                d($extension);
             }
             break;
             default: {
