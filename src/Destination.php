@@ -25,6 +25,7 @@ trait Destination {
             case 'file_request': {
                 $request = $this->request('request');
                 d($request);
+                d($request);
             }
             break;
             default: {
