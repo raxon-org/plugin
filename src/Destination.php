@@ -28,7 +28,16 @@ trait Destination {
                 if($extension === ''){
                     return false;
                 }
-                ddd($config->get('route'));
+                $current = (object) [
+                    'name' => '...',
+                    'path' => $request,
+                    'priority' => 0,
+                    'controller' => 'Microstorm\\Controller\\FileRequest',
+                    'method' => [
+                        'GET'
+                    ]
+                ];
+                return new Destiny($current);
             }
             break;
             default: {
