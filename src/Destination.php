@@ -8,18 +8,32 @@
  */
 namespace Plugin;
 
+use Exception;
 use Module\Destination as Destiny;
 
 trait Destination {
 
-    public function destination(): false|Destiny
+    /**
+     * @throws Exception
+     */
+    public function destination($type='page'): false|Destiny
     {
         $config = $this->config();
-        if($config){
-            if(empty($config->get('route.current'))){
-                return false;
+        switch($type){
+            case 'file-request':
+            case 'file_request': {
+                d($this->request());
+                ddd($config);
             }
-            return $this->config()->get('route.current');
+            break;
+            default: {
+                if($config){
+                    if(empty($config->get('route.current'))){
+                        return false;
+                    }
+                    return $this->config()->get('route.current');
+                }
+            }
         }
         return false;
     }
